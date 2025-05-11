@@ -9,11 +9,19 @@
 ---
 
 **파일 설명**  
-- `button_3d.ipt` = 키캡(버튼) 인벤터 파일  
-- `button_3d.stl` = 키캡(버튼) STL 파일  
-- `OldVersions/` = 기본 ipt 파일  
-- `arduino_code.ino` = 아두이노 제어 코드  
-
+```
+alom-gun-game-arduino/  
+├── README.md = README file
+├── .gitignore = git option file
+├── 3d_file/
+│ ├── OldVersions/
+│ | └── button_3d.(N).ipt = 인벤터 버전 파일
+│ ├── button_3d.stl = stl 파일
+│ └── button_3d.ipt = 인벤터 파일
+├── arduino_code/  
+│ ├── arduino_code.ino = 메인 아두이노 코드
+│ └── switch_test_code.ino = switch 오작동 테스트 코드
+```
 ---
 
 **포트 설명**  
@@ -32,3 +40,4 @@
 ***주의사항***  
 - 릴레이 모듈은 `LOW`일 때 전등이 켜지는 논리로 구성되어 있습니다.  
 - 릴레이는 반드시 AC 전등 전원과 절연된 상태에서 연결하세요.  
+- switch test 코드에서는 D2와 GND에 연결하면 됩니다.
