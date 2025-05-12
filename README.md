@@ -25,6 +25,7 @@ alom-gun-game-arduino/
 ├── arduino\_code/
 │   ├── master.ino            # 마스터 아두이노 (Serial ↔ I2C 중계)  
 │   ├── slave.ino             # 슬레이브 아두이노 (각 4개 버튼+릴레이 제어)  
+│   ├── OldVersions/
 │   └── switch\_test\_code.ino  # 버튼 스위치 단독 테스트용  
 
 ```

@@ -1,5 +1,5 @@
 #include <Wire.h>
-
+//test file
 const int SLAVE_ADDR = 8;
 const int buttonPins[4] = {2, 3, 4, 5};
 
@@ -23,9 +23,9 @@ void loop() {
         if (digitalRead(buttonPins[i]) == LOW) {
           while (digitalRead(buttonPins[i]) == LOW);  // 버튼 떼기 대기
           pressedIndex = i;
-          Serial.print("🔘 버튼 ");
+          Serial.print("Button ");
           Serial.print(i);
-          Serial.println(" 눌림");
+          Serial.println(" Press");
           break;
         }
       }

@@ -12,7 +12,7 @@ CELL_HEIGHT = 150
 GRID_COLS = 3
 GRID_ROWS = 4
 slave_addresses = [8, 9, 10]
-target_button = random.randint(1, 4)
+target_button = random.randint(1, 12)
 last_hit = None
 score = 0
 
@@ -58,7 +58,7 @@ def check_loop():
             print(f"✅ 정답! 버튼 {hit} 눌림 | 점수: {score}")
             dpg.set_value("status", f"Answer! Button {hit} press")
             dpg.set_value("score", f"Score: {score}")
-            target_button = random.randint(1, 4)
+            target_button = random.randint(1, 12)
             update_grid()
         else:
             print(f"❌ 오답: 버튼 {hit} 눌림 (기대: {target_button}) | 점수: {score}")
