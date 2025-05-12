@@ -3,9 +3,9 @@ import serial
 import time
 from dearpygui import dearpygui as dpg
 
-# # 시리얼 포트 설정 (환경에 맞게 수정)
-# ser = serial.Serial('COM4', 9600, timeout=1)
-# time.sleep(2)
+# 시리얼 포트 설정 (환경에 맞게 수정)
+ser = serial.Serial('COM7', 9600, timeout=1)
+time.sleep(2)
 
 CELL_WIDTH = 250
 CELL_HEIGHT = 200
@@ -22,15 +22,15 @@ def send_target_to_arduino(target_number):
     # ser.write(cmd.encode())
     print(f"📤 Sent to Arduino: {cmd.strip()}")
 
-# def check_hit():
-#     for addr in slave_addresses:
-        # ser.write(f"GET {addr}\n".encode())
-        # line = ser.readline().decode().strip()
-        # # if line.startswith("RESULT"):
-        #     _, a, v = line.split()
-        #     if int(v) == 1:
-        #         return int(a)
-    # return None
+def check_hit():
+    for addr in slave_addresses:
+        ser.write(f"GET {addr}\n".encode())
+        line = ser.readline().decode().strip()
+        if line.startswith("RESULT"):
+            _, a, v = line.split()
+            if int(v) == 1:
+                return int(a)
+    return None
 
 def draw_grid():
     dpg.delete_item("ufo_canvas", children_only=True)
@@ -55,14 +55,18 @@ def set_new_target():
     send_target_to_arduino(current_target)
     waiting = True
 
-# def check_hit_and_loop():
-#     global waiting
-#     if waiting:
-#         hit = check_hit()
-#         if hit is not None:
-#             if hit == (current_target - 1) // 4 + 8:
-#                 print(f"✅ Correct hit from slave {hit}!")
-#                 set_new_target()
+def check_hit_and_loop():
+    global waiting
+    if waiting:
+        hit = check_hit()
+        if hit is not None:
+            expected = (current_target - 1) // 4 + 8
+            if hit == expected:
+                print(f"✅ Correct hit from slave {hit}!")
+                set_new_target()
+            else:
+                print(f"❌ Wrong hit from slave {hit} (expected {expected})")
+
 
 dpg.create_context()
 
