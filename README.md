@@ -65,7 +65,6 @@ alom-gun-game-arduino/
 
 ```
 pip install dearpygui
-python ufo_game.py
 ```
 
 ---
