@@ -1,56 +1,90 @@
+import random
 import serial
 import time
-import random
-import pyttsx3
+from dearpygui import dearpygui as dpg
 
-# COM 포트 번호는 장치 관리자에서 확인 (예: COM4)
-ser = serial.Serial('COM4', 9600, timeout=1)
-time.sleep(2)
+# # 시리얼 포트 설정 (환경에 맞게 수정)
+# ser = serial.Serial('COM4', 9600, timeout=1)
+# time.sleep(2)
 
-tts = pyttsx3.init()
-score = 0
+CELL_WIDTH = 300
+CELL_HEIGHT = 250
+GRID_COLS = 4
+GRID_ROWS = 3
+current_target = 1
 slave_addresses = [8, 9, 10]
+waiting = False
 
-def send(cmd):
-    ser.write((cmd + '\n').encode())
+def send_target_to_arduino(target_number):
+    slave = (target_number - 1) // 4 + 8
+    index = (target_number - 1) % 4
+    cmd = f"SET {slave} {index}\n"
+    # ser.write(cmd.encode())
+    print(f"📤 Sent to Arduino: {cmd.strip()}")
 
-def recv():
-    return ser.readline().decode().strip()
+# def check_hit():
+#     for addr in slave_addresses:
+        # ser.write(f"GET {addr}\n".encode())
+        # line = ser.readline().decode().strip()
+        # # if line.startswith("RESULT"):
+        #     _, a, v = line.split()
+        #     if int(v) == 1:
+        #         return int(a)
+    # return None
 
-def set_target(slave, index):
-    send(f"SET {slave} {index}")
-    tts.say(f"타겟 {(slave - 8) * 4 + index + 1} 번입니다.")
-    tts.runAndWait()
+def draw_grid():
+    dpg.delete_item("ufo_canvas", children_only=True)
+    for i in range(12):
+        row = i // GRID_COLS
+        col = i % GRID_COLS
+        x = col * CELL_WIDTH
+        y = row * CELL_HEIGHT
+        dpg.draw_rectangle((x, y), (x + CELL_WIDTH, y + CELL_HEIGHT), color=(50, 50, 50, 255), parent="ufo_canvas")
+        dpg.draw_text((x + 10, y + 10), text=str(i + 1), size=20, color=(255, 255, 255, 255), parent="ufo_canvas")
 
-def check_hit():
-    for addr in slave_addresses:
-        send(f"GET {addr}")
-        res = recv()
-        if res.startswith("RESULT"):
-            _, a, v = res.split()
-            if int(v) == 1:
-                return int(a)
-    return None
+def set_new_target():
+    global current_target, waiting
+    draw_grid()
+    current_target = random.randint(1, 12)
+    row = (current_target - 1) // GRID_COLS
+    col = (current_target - 1) % GRID_COLS
+    x = col * CELL_WIDTH + CELL_WIDTH // 2
+    y = row * CELL_HEIGHT + CELL_HEIGHT // 2
+    dpg.draw_circle((x, y), 50, color=(150, 150, 150, 255), fill=(100, 255, 100, 255), parent="ufo_canvas")
+    dpg.set_value("target_label", f"🎯 Current Target: {current_target}")
+    send_target_to_arduino(current_target)
+    waiting = True
 
-while True:
-    slave = random.choice(slave_addresses)
-    index = random.randint(0, 3)
-    correct_addr = slave
+# def check_hit_and_loop():
+#     global waiting
+#     if waiting:
+#         hit = check_hit()
+#         if hit is not None:
+#             if hit == (current_target - 1) // 4 + 8:
+#                 print(f"✅ Correct hit from slave {hit}!")
+#                 set_new_target()
 
-    set_target(slave, index)
+dpg.create_context()
 
-    while True:
-        time.sleep(0.2)
-        hit = check_hit()
-        if hit is None:
-            continue
-        if hit == correct_addr:
-            score += 1
-            print(f"✅ 정답! 점수: {score}")
-            tts.say(f"정답입니다. 현재 점수는 {score}점입니다.")
-            tts.runAndWait()
-            break
-        else:
-            print("❌ 오답!")
-            tts.say("오답입니다.")
-            tts.runAndWait()
+with dpg.window(label="UFO Grid Game", tag="main_window"):
+    with dpg.drawlist(width=GRID_COLS * CELL_WIDTH, height=GRID_ROWS * CELL_HEIGHT, tag="ufo_canvas"):
+        pass
+    dpg.add_text("🎯 Current Target: 1", tag="target_label")
+
+set_new_target()
+
+with dpg.handler_registry():
+    dpg.add_mouse_click_handler(callback=lambda: None)  # 필수: 이벤트 루프 유지용
+
+dpg.create_viewport(title="UFO Grid Game", width=1200, height=700)
+dpg.setup_dearpygui()
+dpg.show_viewport()
+dpg.set_primary_window("main_window", True)
+
+# 메인 루프에서 반복 검사
+while dpg.is_dearpygui_running():
+    # check_hit_and_loop()
+    dpg.render_dearpygui_frame()
+    time.sleep(0.1)
+
+dpg.destroy_context()

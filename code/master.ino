@@ -18,16 +18,14 @@ void loop() {
       Serial.println("OK");
     }
 
-    if (cmd.startsWith("GET")) {
-      int addr = cmd.substring(4).toInt();
-      Wire.requestFrom(addr, 1);
-      if (Wire.available()) {
-        int result = Wire.read();
-        Serial.print("RESULT ");
-        Serial.print(addr);
-        Serial.print(" ");
-        Serial.println(result);
-      }
+    if (cmd.startsWith("SET")) {
+      int space = cmd.indexOf(' ', 4);
+      int addr = cmd.substring(4, space).toInt();
+      int idx = cmd.substring(space + 1).toInt();
+      Wire.beginTransmission(addr);
+      Wire.write(idx);
+      Wire.endTransmission();
+      Serial.println("OK");
     }
   }
 }
