@@ -56,6 +56,14 @@ alom-gun-game-arduino/
 
 ## 🖥️ PC GUI 시스템 (UFO 타겟)
 
+GUI 위치
+|set 8 0  |set 8 1  |set 8 2  |
+|---------|---------|---------|
+|set 8 3  |set 9 0  |set 9 1  |
+|set 9 2  |set 9 3  |set 10 1 |
+|set 10 1 |set 10 2 |set 10 3 |
+
+
 - **라이브러리**: [DearPyGui](https://github.com/hoffstadt/dearpygui)
 - **동작 방식**:
   - 4x3 그리드에서 랜덤한 타겟 표시

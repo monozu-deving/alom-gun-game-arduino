@@ -7,10 +7,10 @@ from dearpygui import dearpygui as dpg
 # ser = serial.Serial('COM4', 9600, timeout=1)
 # time.sleep(2)
 
-CELL_WIDTH = 300
-CELL_HEIGHT = 250
-GRID_COLS = 4
-GRID_ROWS = 3
+CELL_WIDTH = 250
+CELL_HEIGHT = 200
+GRID_COLS = 3
+GRID_ROWS = 4
 current_target = 1
 slave_addresses = [8, 9, 10]
 waiting = False
@@ -50,7 +50,7 @@ def set_new_target():
     col = (current_target - 1) % GRID_COLS
     x = col * CELL_WIDTH + CELL_WIDTH // 2
     y = row * CELL_HEIGHT + CELL_HEIGHT // 2
-    dpg.draw_circle((x, y), 50, color=(150, 150, 150, 255), fill=(100, 255, 100, 255), parent="ufo_canvas")
+    dpg.draw_circle((x, y), 40, color=(150, 150, 150, 255), fill=(100, 255, 100, 255), parent="ufo_canvas")
     dpg.set_value("target_label", f"🎯 Current Target: {current_target}")
     send_target_to_arduino(current_target)
     waiting = True
