@@ -25,8 +25,11 @@ alom-gun-game-arduino/
 ├── arduino\_code/
 │   ├── master.ino            # 마스터 아두이노 (Serial ↔ I2C 중계)  
 │   ├── slave.ino             # 슬레이브 아두이노 (각 4개 버튼+릴레이 제어)  
-│   ├── OldVersions/
-│   └── switch\_test\_code.ino  # 버튼 스위치 단독 테스트용  
+|   ├── main.py               # 메인 프로그램 python 파일
+|   |   ├── ver1&temp  
+|   |   |   ├──...            # 스위치 테스트 파일  
+|   |   ├── test  
+|   |   |   ├──...            # 프로그램 개조 & 파일  
 
 ```
 
@@ -72,10 +75,21 @@ GUI 위치
   - 정답 버튼이 눌릴 때까지 기다림
   - 버튼이 눌리면 다음 타겟으로 자동 진행
 
+**초기 환경 설정으로 할 것**
+
 ```
 pip install dearpygui
 ```
+gui 확인 세팅  
 
+```
+const int SLAVE_ADDR = 8;     # slave를 8, 9, 10으로 각각 바꿔주기  
+```
+  
+```
+ser = serial.Serial('COM7', 9600, timeout=0.1)  #COM 포트 바꿔주기
+```
+  
 ---
 
 ## ⚠️ 주의사항
