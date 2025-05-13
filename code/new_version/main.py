@@ -7,12 +7,13 @@ current_target = random.randint(1, 12)
 button_ser = serial.Serial('COM6', 9600, timeout=0.1)
 relay_ser = serial.Serial('COM7', 9600, timeout=0.1)
 time.sleep(2)
+
 CELL_WIDTH = 150
 CELL_HEIGHT = 150
 GRID_COLS = 3
 GRID_ROWS = 4
 score = 0
-message = "🎯 버튼을 눌러 시작하세요"
+message = "click button and start!"
 
 
 def draw_grid():
@@ -34,7 +35,7 @@ def set_target(target):
     cmd = str(target) if target < 10 else chr(ord('a') + target - 10)
     # time.sleep(1)
     relay_ser.write(cmd.encode())
-    dpg.set_value("target_text", f"🎯 대상: {target}")
+    dpg.set_value("target_text", f"Object: {target}")
 
 def check_hit():
     global score, current_target, message
@@ -44,21 +45,21 @@ def check_hit():
             val = int(line)
             if val == current_target:
                 score += 1
-                message = f"✅ 정답! 버튼 {val}"
-                dpg.set_value("score_text", f"🏆 점수: {score}")
+                message = f"Answer button {val}"
+                dpg.set_value("score_text", f"Score: {score}")
                 current_target = random.randint(1, 12)
                 set_target(current_target)
                 draw_grid()
             else:
-                message = f"❌ 오답: {val} (기대: {current_target})"
+                message = f"Wrong: {val} (hope: {current_target})"
         dpg.set_value("message_text", message)
     except:
         pass
 
 dpg.create_context()
 with dpg.window(label="UFO Grid Game", tag="main"):
-    dpg.add_text(f"🎯 대상: {current_target}", tag="target_text")
-    dpg.add_text(f"🏆 점수: 0", tag="score_text")
+    dpg.add_text(f"Object: {current_target}", tag="target_text")
+    dpg.add_text(f"score: 0", tag="score_text")
     dpg.add_text(message, tag="message_text")
     with dpg.drawlist(width=GRID_COLS * CELL_WIDTH, height=GRID_ROWS * CELL_HEIGHT, tag="canvas"):
         pass
