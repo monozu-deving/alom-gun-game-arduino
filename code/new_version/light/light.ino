@@ -60,5 +60,4 @@ void loop() {
     else if (cmd == 'b') digitalWrite(relay11, LOW); // 11
     else if (cmd == 'c') digitalWrite(relay12, LOW); // 12
   }
-  delay(10);
 }

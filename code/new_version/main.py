@@ -3,23 +3,17 @@ import serial
 import time
 from dearpygui import dearpygui as dpg
 
+current_target = random.randint(1, 12)
 button_ser = serial.Serial('COM6', 9600, timeout=0.1)
 relay_ser = serial.Serial('COM7', 9600, timeout=0.1)
-
+time.sleep(2)
 CELL_WIDTH = 150
 CELL_HEIGHT = 150
 GRID_COLS = 3
 GRID_ROWS = 4
-current_target = random.randint(1, 12)
 score = 0
 message = "🎯 버튼을 눌러 시작하세요"
 
-def set_target(target):
-    # 10,11,12은 'a','b','c'
-    cmd = str(target) if target < 10 else chr(ord('a') + target - 10)
-    time.sleep(2)
-    relay_ser.write(cmd.encode())
-    dpg.set_value("target_text", f"🎯 대상: {target}")
 
 def draw_grid():
     dpg.delete_item("canvas", children_only=True)
@@ -35,6 +29,12 @@ def draw_grid():
     cx = col * CELL_WIDTH + CELL_WIDTH // 2
     cy = row * CELL_HEIGHT + CELL_HEIGHT // 2
     dpg.draw_circle((cx, cy), 30, fill=(0,255,0,150), parent="canvas")
+def set_target(target):
+    # 10,11,12은 'a','b','c'
+    cmd = str(target) if target < 10 else chr(ord('a') + target - 10)
+    # time.sleep(1)
+    relay_ser.write(cmd.encode())
+    dpg.set_value("target_text", f"🎯 대상: {target}")
 
 def check_hit():
     global score, current_target, message

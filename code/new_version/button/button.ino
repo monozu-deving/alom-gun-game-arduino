@@ -10,7 +10,6 @@ void setup() {
 void loop() {
   for (int i = 0; i < 12; i++) {
     if (digitalRead(buttonPins[i]) == LOW) {
-      delay(50);
       if (digitalRead(buttonPins[i]) == LOW) {
         while (digitalRead(buttonPins[i]) == LOW);
         Serial.println(i + 1); // 버튼 번호 (1~12) 전송
