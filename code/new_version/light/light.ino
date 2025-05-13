@@ -30,22 +30,35 @@ void setup() {
 }
 
 void loop() {
-  while (Serial.available()) {
-    cmd = Serial.read(); 
-  }
+  if (Serial.available()) {
+    cmd = Serial.read();
+    // 모든 릴레이 OFF (HIGH)
+    digitalWrite(relay1, HIGH);
+    digitalWrite(relay2, HIGH);
+    digitalWrite(relay3, HIGH);
+    digitalWrite(relay4, HIGH);
+    digitalWrite(relay5, HIGH);
+    digitalWrite(relay6, HIGH);
+    digitalWrite(relay7, HIGH);
+    digitalWrite(relay8, HIGH);
+    digitalWrite(relay9, HIGH);
+    digitalWrite(relay10, HIGH);
+    digitalWrite(relay11, HIGH);
+    digitalWrite(relay12, HIGH);
 
-  // cmd에 따라 해당 릴레이만 ON (LOW)
-  if (cmd == '1')      digitalWrite(relay1, LOW);
-  else if (cmd == '2') digitalWrite(relay2, LOW);
-  else if (cmd == '3') digitalWrite(relay3, LOW);
-  else if (cmd == '4') digitalWrite(relay4, LOW);
-  else if (cmd == '5') digitalWrite(relay5, LOW);
-  else if (cmd == '6') digitalWrite(relay6, LOW);
-  else if (cmd == '7') digitalWrite(relay7, LOW);
-  else if (cmd == '8') digitalWrite(relay8, LOW);
-  else if (cmd == '9') digitalWrite(relay9, LOW);
-  else if (cmd == 'a') digitalWrite(relay10, LOW); // 10
-  else if (cmd == 'b') digitalWrite(relay11, LOW); // 11
-  else if (cmd == 'c') digitalWrite(relay12, LOW); // 12
+    // cmd에 따라 해당 릴레이만 ON (LOW)
+    if (cmd == '1')      digitalWrite(relay1, LOW);
+    else if (cmd == '2') digitalWrite(relay2, LOW);
+    else if (cmd == '3') digitalWrite(relay3, LOW);
+    else if (cmd == '4') digitalWrite(relay4, LOW);
+    else if (cmd == '5') digitalWrite(relay5, LOW);
+    else if (cmd == '6') digitalWrite(relay6, LOW);
+    else if (cmd == '7') digitalWrite(relay7, LOW);
+    else if (cmd == '8') digitalWrite(relay8, LOW);
+    else if (cmd == '9') digitalWrite(relay9, LOW);
+    else if (cmd == 'a') digitalWrite(relay10, LOW); // 10
+    else if (cmd == 'b') digitalWrite(relay11, LOW); // 11
+    else if (cmd == 'c') digitalWrite(relay12, LOW); // 12
+  }
   delay(10);
 }

@@ -17,7 +17,8 @@ message = "🎯 버튼을 눌러 시작하세요"
 def set_target(target):
     # 10,11,12은 'a','b','c'
     cmd = str(target) if target < 10 else chr(ord('a') + target - 10)
-    relay_ser.write('5'.encode())
+    time.sleep(2)
+    relay_ser.write(cmd.encode())
     dpg.set_value("target_text", f"🎯 대상: {target}")
 
 def draw_grid():
