@@ -2,10 +2,10 @@ import random
 import serial
 import time
 from dearpygui import dearpygui as dpg
-
-current_target = random.randint(1, 12)
-button_ser = serial.Serial('COM6', 9600, timeout=0.1)
-relay_ser = serial.Serial('COM7', 9600, timeout=0.1)
+numlist = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
+current_target = random.choice(numlist)
+button_ser = serial.Serial('COM9', 9600, timeout=0.1)
+relay_ser = serial.Serial('COM8', 9600, timeout=0.1)
 time.sleep(2)
 
 CELL_WIDTH = 150
@@ -47,7 +47,7 @@ def check_hit():
                 score += 1
                 message = f"Answer button {val}"
                 dpg.set_value("score_text", f"Score: {score}")
-                current_target = random.randint(1, 12)
+                current_target = random.choice(numlist)
                 set_target(current_target)
                 draw_grid()
             else:
