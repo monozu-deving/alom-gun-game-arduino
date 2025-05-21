@@ -1,4 +1,8 @@
-# 👽 ALOM 부스 방어 시스템 – 재가동 부스 설명
+# 👽 ALOM 부스 방어 시스템 – 재가동 부스 설명  
+
+![Arduino](https://img.shields.io/badge/Arduino-00979D?style=flat&logo=arduino&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![3D Printing](https://img.shields.io/badge/3D_Printing-FF6F00?style=flat&logo=open3d&logoColor=white)  
 
 기계식 키보드 버튼으로 총알에 맞았는지 상황을 감지 (불빛이 들어오는 자리로)  
 → 감지 후 점수 추가  

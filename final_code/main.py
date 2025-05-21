@@ -2,9 +2,9 @@ import random
 import serial
 import time
 from dearpygui import dearpygui as dpg
-numlist = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
+numlist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 current_target = random.choice(numlist)
-button_ser = serial.Serial('COM9', 9600, timeout=0.1)
+button_ser = serial.Serial('COM6', 9600, timeout=0.1)
 relay_ser = serial.Serial('COM8', 9600, timeout=0.1)
 time.sleep(2)
 
